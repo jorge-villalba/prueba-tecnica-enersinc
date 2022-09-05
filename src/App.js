@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+
+//Import the component of the users
+import CompShowUsers from './users/ShowUsers';
+import CompAddUser from './users/AddUser';
+import CompEditUser from './users/EditUser';
+import CompSeeUser from './users/SeeUser';
+
+//Import router
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <header className="App-header"></header> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<CompShowUsers/>}></Route>
+          <Route path="/add" element={<CompAddUser/>}></Route>
+          <Route path="/:id/edit" element={<CompEditUser/>}></Route>
+          <Route path = "/:id" element={<CompSeeUser></CompSeeUser>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
