@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const URI = "http://localhost:8000/"
+const URI = "https://gorest.co.in/public/v2/users/"
 
 const CompSeeUser = () => {
     const [name, setName] = useState('');
@@ -17,7 +17,13 @@ const CompSeeUser = () => {
     useEffect(() => {
         //Obtain the data with the id of the user
         const getUserById = async () => {
-            const res = await axios.get(URI + id)
+            const res = await axios.get(URI + id, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": "Bearer b8b84db74ed0a638cecdb1b5510ba7835bec9654043690d66691c90b51444a07"
+                }
+            });
             setName(res.data.name);
             setEmail(res.data.email);
             setGender(res.data.gender);

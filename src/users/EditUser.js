@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import OpenNotification from "../notification/Notification";
 
-const URI = "http://localhost:8000/"
+const URI = "https://gorest.co.in/public/v2/users/"
 
 const CompEditUser = () => {
     const [name, setName] = useState('');
@@ -17,17 +17,34 @@ const CompEditUser = () => {
 
     //Do the changes in the user
     const edit = async (e) => {
-        e.preventDefault();
-        await axios.put(URI + id, {
-            name: name,
-            email: email,
-            gender: gender,
-            status: status
-        });
-        //Print a notification of user added
-        OpenNotification("success","Edit","The user has been edited successfully");
-        //Return to the main page
-        navigate("/");
+
+        try {
+            //Prevent the defaut of POST
+            e.preventDefault();
+            await axios.put(URI + id, {
+                name: name,
+                email: email,
+                gender: gender,
+                status: status
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": "Bearer b8b84db74ed0a638cecdb1b5510ba7835bec9654043690d66691c90b51444a07"
+                }
+            });
+            //Print a notification of user added
+            OpenNotification("success", "Edit", "The user has been edited successfully");
+            //Return to the main page
+            navigate("/");
+        } catch (error) {
+            //Save in a variable the data of the error response
+            const response = error.response.data;
+            //Print a error message for each error
+            for (let index = 0; index < response.length; index++) {
+                OpenNotification("error", response[index].field, response[index].message)
+            }
+        }
     }
 
     //Set the data in the form
@@ -35,7 +52,13 @@ const CompEditUser = () => {
 
         //Obtain the data with the id of the user
         const getUserById = async () => {
-            const res = await axios.get(URI + id)
+            const res = await axios.get(URI + id, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": "Bearer b8b84db74ed0a638cecdb1b5510ba7835bec9654043690d66691c90b51444a07"
+                }
+            });
             setName(res.data.name);
             setEmail(res.data.email);
             setGender(res.data.gender);
@@ -70,31 +93,23 @@ const CompEditUser = () => {
                 </div>
                 <div className='mb-3'>
                     <label className='form-label'>Gender</label>
-                    <input
-                        list="genders"
-                        value={gender}
+                    <select value={gender}
                         onChange={(e) => setGender(e.target.value)}
                         type="text"
-                        className='form-control'
-                    />
-                    <datalist id="genders">
-                        <option value="male" />
-                        <option value="female" />
-                    </datalist>
+                        className='form-select'>
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
                 </div>
                 <div className='mb-3'>
                     <label className='form-label'>Status</label>
-                    <input
-                        list="status"
-                        value={status}
+                    <select value={status}
                         onChange={(e) => setStatus(e.target.value)}
                         type="text"
-                        className='form-control'
-                    />
-                    <datalist id="status">
-                        <option value="active" />
-                        <option value="inactive" />
-                    </datalist>
+                        className='form-select'>
+                        <option value="active">active</option>
+                        <option value="inactive">inactive</option>
+                    </select>
                 </div>
                 <button type="submit" className="btn btn-primary mx-2">Edit</button>
                 <a className="btn btn-secondary" href="/">Back</a>

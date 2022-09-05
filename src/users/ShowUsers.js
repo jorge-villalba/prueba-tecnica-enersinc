@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import OpenNotification from '../notification/Notification';
 
 
-const URI = "http://localhost:8000/"
+const URI = "https://gorest.co.in/public/v2/users/"
 
 const CompShowUsers = () => {
 
@@ -16,16 +16,28 @@ const CompShowUsers = () => {
     //Function to show all the users
     const getUsers = async () => {
         //Does the request to the backend
-        const res = await axios.get(URI);
+        const res = await axios.get(URI, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer b8b84db74ed0a638cecdb1b5510ba7835bec9654043690d66691c90b51444a07"
+            }
+        });
         setUser(res.data);
     }
 
     //Function to delete a user
     const deleteUser = async (id) => {
         //Eliminate a user according to id
-        await axios.delete(`${URI}${id}`);
+        await axios.delete(`${URI}${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer b8b84db74ed0a638cecdb1b5510ba7835bec9654043690d66691c90b51444a07"
+            }
+        });
         //Open a nofification
-        await OpenNotification("success","Delete","The user has been deleted successfully")
+        await OpenNotification("warning", "Delete", "The user has been deleted successfully")
         //Call get users to refresh the table 
         getUsers();
     }
