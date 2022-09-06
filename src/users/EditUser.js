@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import useEffect, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import OpenNotification from "../notification/Notification";
 
@@ -65,7 +65,7 @@ const CompEditUser = () => {
             setStatus(res.data.status);
         }
         getUserById();
-    }, [])
+    })
 
 
 

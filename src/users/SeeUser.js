@@ -30,7 +30,7 @@ const CompSeeUser = () => {
             setStatus(res.data.status);
         }
         getUserById();
-    }, [])
+    })
 
 
 

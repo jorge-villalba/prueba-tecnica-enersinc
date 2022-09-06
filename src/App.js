@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 
 //Import the component of the users
 import CompShowUsers from './users/ShowUsers';
@@ -12,7 +13,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 function App() {
   return (
     <div className="App">
-      {/* <header className="App-header"></header> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CompShowUsers/>}></Route>
