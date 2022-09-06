@@ -65,7 +65,7 @@ const CompEditUser = () => {
             setStatus(res.data.status);
         }
         getUserById();
-    },[])
+    })
 
 
 
